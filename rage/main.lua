@@ -60,9 +60,24 @@ function love.update(dt)
     player.position = player.position + (player.velocity * dt)
 
     -- Update the enemies' positions.
-    for i, v in ipairs(enemies) do
-        v.position = v.position + (v.velocity * dt)
+    for i, enemy in ipairs(enemies) do
+        enemy.position = enemy.position + (enemy.velocity * dt)
 
+        -- Constrain the enemies to the screen.
+        if enemy.position.x < 0 then
+            enemy.position.x = 0
+            enemy.velocity.x = enemy.velocity.x * -1
+        elseif enemy.position.x > SCREEN_WIDTH then
+            enemy.position.x = SCREEN_WIDTH
+            enemy.velocity.x = enemy.velocity.x * -1
+        end
+        if enemy.position.y < 0 then
+            enemy.position.y = 0
+            enemy.velocity.y = enemy.velocity.y * -1
+        elseif enemy.position.y > SCREEN_HEIGHT then
+            enemy.position.y = SCREEN_HEIGHT
+            enemy.velocity.y = enemy.velocity.y * -1
+        end
     end
 end
 
