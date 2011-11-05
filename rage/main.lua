@@ -21,8 +21,17 @@ function love.load()
     -- Create a table to hold information about the player.
     player = {
         image = graphics.newImage("assets/determined.png"),
-        position = vector(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2),
+        position = vector(SCREEN_WIDTH * 3 / 4, SCREEN_HEIGHT * 3 / 4),
         velocity = vector(0, 0)
+    }
+
+    -- Create some tables to hold information about the enemies.
+    level_images = {
+        graphics.newImage("assets/happy.png")
+    }
+    enemies = {}
+    enemies[#enemies + 1] = {
+        position = vector(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4)
     }
 
 end
@@ -46,7 +55,13 @@ function love.update(dt)
 end
 
 function love.draw()
-    -- Draw the player
+    -- Draw the enemies.
+    for i, v in ipairs(enemies) do
+        graphics.draw(level_images[1], v.position.x, v.position.y, 0, 1, 1,
+            level_images[1]:getWidth() / 2, level_images[1]:getHeight() / 2)
+    end
+
+    -- Draw the player.
     local player_direction = 1
     if mouse.getX() < player.position.x then
         player_direction = -1
