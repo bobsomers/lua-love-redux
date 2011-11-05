@@ -8,7 +8,7 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
 -- How much should we increase the players velocity? (in pixels per second)
-PLAYER_ACCEL = 10
+PLAYER_ACCEL = 100
 
 function love.load()
     -- Set the background color for when we redraw the frame.
@@ -52,6 +52,7 @@ function love.mousepressed(x, y, button)
 end
 
 function love.keypressed(key)
+    -- Quit the game when we press escape.
     if key == "escape" then
         love.event.push("q") -- quit
     end

@@ -1,2 +1,8 @@
 # Vim swapfiles
 *.swp
+
+# LOVE binaries
+DevIL.dll
+OpenAL32.dll
+SDL.dll
+love.exe
