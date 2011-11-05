@@ -14,9 +14,15 @@ PLAYER_ACCEL = 300
 -- percentage of the last update's velocity.
 PLAYER_FRICTION = 0.92
 
+-- The speed of the level 1 enemies, in pixels per second.
+LEVEL1_SPEED = 50
+
 function love.load()
     -- Set the background color for when we redraw the frame.
     graphics.setBackgroundColor(255, 255, 255)
+
+    -- Seed the random number generator for a new experience every time!
+    math.randomseed(os.time())
 
     -- Create a table to hold information about the player.
     player = {
@@ -30,10 +36,10 @@ function love.load()
         graphics.newImage("assets/happy.png")
     }
     enemies = {}
-    enemies[#enemies + 1] = {
-        position = vector(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4)
+    enemies[1] = {
+        position = vector(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4),
+        velocity = vector((math.random() * 2) - 1, (math.random() * 2) - 1):normalize_inplace() * LEVEL1_SPEED
     }
-
 end
 
 function love.update(dt)
@@ -52,6 +58,12 @@ function love.update(dt)
     -- Update the player's position based on their current position and
     -- velocity.
     player.position = player.position + (player.velocity * dt)
+
+    -- Update the enemies' positions.
+    for i, v in ipairs(enemies) do
+        v.position = v.position + (v.velocity * dt)
+
+    end
 end
 
 function love.draw()
