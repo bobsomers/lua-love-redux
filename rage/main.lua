@@ -47,7 +47,12 @@ end
 
 function love.draw()
     -- Draw the player
-    graphics.draw(player.image, player.position.x, player.position.y, 0, 0.3, 0.3,
+    local player_direction = 1
+    if mouse.getX() < player.position.x then
+        player_direction = -1
+    end
+    graphics.draw(player.image, player.position.x, player.position.y, 0,
+        0.3 * player_direction, 0.3,
         player.image:getWidth() / 2, player.image:getHeight() / 2)
 end
 
