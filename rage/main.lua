@@ -15,7 +15,7 @@ PLAYER_ACCEL = 300
 PLAYER_FRICTION = 0.92
 
 -- The speed of the level 1 enemies, in pixels per second.
-LEVEL1_SPEED = 50
+LEVEL1_SPEED = 100
 
 function love.load()
     -- Set the background color for when we redraw the frame.
@@ -64,18 +64,20 @@ function love.update(dt)
         enemy.position = enemy.position + (enemy.velocity * dt)
 
         -- Constrain the enemies to the screen.
-        if enemy.position.x < 0 then
-            enemy.position.x = 0
+        local halfWidth = level_images[1]:getWidth() / 2
+        local halfHeight = level_images[1]:getHeight() / 2
+        if enemy.position.x - halfWidth < 0 then
+            enemy.position.x = 0 + halfWidth
             enemy.velocity.x = enemy.velocity.x * -1
-        elseif enemy.position.x > SCREEN_WIDTH then
-            enemy.position.x = SCREEN_WIDTH
+        elseif enemy.position.x + halfWidth > SCREEN_WIDTH then
+            enemy.position.x = SCREEN_WIDTH - halfWidth
             enemy.velocity.x = enemy.velocity.x * -1
         end
-        if enemy.position.y < 0 then
-            enemy.position.y = 0
+        if enemy.position.y - halfHeight < 0 then
+            enemy.position.y = 0 + halfHeight
             enemy.velocity.y = enemy.velocity.y * -1
-        elseif enemy.position.y > SCREEN_HEIGHT then
-            enemy.position.y = SCREEN_HEIGHT
+        elseif enemy.position.y + halfHeight > SCREEN_HEIGHT then
+            enemy.position.y = SCREEN_HEIGHT - halfHeight
             enemy.velocity.y = enemy.velocity.y * -1
         end
     end
