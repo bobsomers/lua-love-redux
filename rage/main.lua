@@ -8,7 +8,11 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
 -- How much should we increase the players velocity? (in pixels per second)
-PLAYER_ACCEL = 100
+PLAYER_ACCEL = 300
+
+-- How much velocity should we retain, every update? Think of this as a
+-- percentage of the last update's velocity.
+PLAYER_FRICTION = 0.92
 
 function love.load()
     -- Set the background color for when we redraw the frame.
@@ -24,13 +28,17 @@ function love.load()
 end
 
 function love.update(dt)
-    -- If the player has their left mouse button down, add some velocity
-    -- to the player in the direction from the player to the mouse.
     if mouse.isDown("l") then
+        -- If the player has their left mouse button down, add some velocity
+        -- to the player in the direction from the player to the mouse.
         local player2mouse = vector(mouse.getX(), mouse.getY()) - player.position
         player2mouse:normalize_inplace()
         player.velocity = player.velocity + (player2mouse * PLAYER_ACCEL * dt)
-    end 
+    else
+        -- If the player *doesn't* have their left mouse button down, bleed off
+        -- velocity to simulate friction.
+        player.velocity = player.velocity * PLAYER_FRICTION;
+    end
 
     -- Update the player's position based on their current position and
     -- velocity.
@@ -39,7 +47,7 @@ end
 
 function love.draw()
     -- Draw the player
-    graphics.draw(player.image, player.position.x, player.position.y, 0, 1, 1,
+    graphics.draw(player.image, player.position.x, player.position.y, 0, 0.3, 0.3,
         player.image:getWidth() / 2, player.image:getHeight() / 2)
 end
 
