@@ -1,7 +1,7 @@
 # Lua with LOVE: Redux
 
 This is the complete source code and slides for a talk I gave for the
-(http://www.cpgd.org)[Cal Poly Game Development Club] in November of 2011 in
+[Cal Poly Game Development Club](http://www.cpgd.org) in November of 2011 in
 preparation for the Global Game Jam.
 
 The slides explain the basic syntax of the Lua language, some standard game
