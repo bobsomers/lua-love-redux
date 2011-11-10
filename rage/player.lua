@@ -45,16 +45,17 @@ end
 function Player:draw()
     -- We'll "scale" our image on the X axis by either +1 or -1, depending on
     -- which way he needs to be facing to look at the mouse.
-    local direction = 1
+    local facing = 1
     if love.mouse.getX() < self.position.x then
-        direction = -1
+        facing = -1
     end
 
-    -- Draw our player at position (x, y), with no rotation, proper scaling
-    -- on the X axis (according to the direction above), 1.0 scale on the Y
-    -- axis, and defining the "center" of our player to be in the center of
-    -- the image.
-    love.graphics.draw(self.image, self.position.x, self.position.y, 0,
-        direction, 1, self.image:getWidth() / 2, self.image:getHeight() / 2)
-
+    -- Draw our player at position (x, y) with no rotation, 1.0 scale on the Y
+    -- axis and "facing" scale on the X axis, and defining the center of our
+    -- player to be in the center of the image.
+    love.graphics.draw(self.image,
+        self.position.x, self.position.y,
+        0,
+        facing, 1,
+        self.image:getWidth() / 2, self.image:getHeight() / 2)
 end

@@ -4,6 +4,7 @@ SCREEN_HEIGHT = 600
 
 -- Load our Player class.
 love.filesystem.load("player.lua")()
+love.filesystem.load("enemy.lua")()
 
 function love.load()
     -- Set the background color for when we redraw the frame.
@@ -16,60 +17,32 @@ function love.load()
     -- friction.
     player = Player(300, 0.92)
 
-    -- Create some tables to hold information about the enemies.
-    --[[
-    level_images = {
-        graphics.newImage("assets/happy.png")
-    }
-    enemies = {}
-    enemies[1] = {
-        position = vector(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4),
-        velocity = vector((math.random() * 2) - 1, (math.random() * 2) - 1):normalize_inplace() * LEVEL1_SPEED
-    }
-    --]]
+    -- Create a new enemy that has a base speed of 100 pixels per second with
+    -- multipliers of 1.5 and 2.0.
+    enemy = Enemy(50, 1.5, 2.0)
 end
 
 function love.update(dt)
     -- Update the player.
     player:update(dt)
 
-    --[[
-    -- Update the enemies' positions.
-    for i, enemy in ipairs(enemies) do
-        enemy.position = enemy.position + (enemy.velocity * dt)
-
-        -- Constrain the enemies to the screen.
-        local halfWidth = level_images[1]:getWidth() / 2
-        local halfHeight = level_images[1]:getHeight() / 2
-        if enemy.position.x - halfWidth < 0 then
-            enemy.position.x = 0 + halfWidth
-            enemy.velocity.x = enemy.velocity.x * -1
-        elseif enemy.position.x + halfWidth > SCREEN_WIDTH then
-            enemy.position.x = SCREEN_WIDTH - halfWidth
-            enemy.velocity.x = enemy.velocity.x * -1
-        end
-        if enemy.position.y - halfHeight < 0 then
-            enemy.position.y = 0 + halfHeight
-            enemy.velocity.y = enemy.velocity.y * -1
-        elseif enemy.position.y + halfHeight > SCREEN_HEIGHT then
-            enemy.position.y = SCREEN_HEIGHT - halfHeight
-            enemy.velocity.y = enemy.velocity.y * -1
-        end
-    end
-    --]]
+    -- Update the enemy.
+    enemy:update(dt)
 end
 
 function love.draw()
-    --[[
-    -- Draw the enemies.
-    for i, v in ipairs(enemies) do
-        graphics.draw(level_images[1], v.position.x, v.position.y, 0, 1, 1,
-            level_images[1]:getWidth() / 2, level_images[1]:getHeight() / 2)
-    end
-    --]]
+    -- Draw the enemy.
+    enemy:draw()
 
     -- Draw the player.
     player:draw()
+
+    -- Draw the player's speed in the top left of the screen. Set the color to
+    -- black so we can see the text, but then reset it to white so our images
+    -- continue to draw properly.
+    love.graphics.setColor(0, 0, 0)
+    love.graphics.print("Speed: " .. math.floor(player.velocity:len()), 10, 10)
+    love.graphics.setColor(255, 255, 255)
 end
 
 function love.keypressed(key)
