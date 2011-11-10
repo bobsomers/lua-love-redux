@@ -21,8 +21,8 @@ function love.load()
     player = Player(300, 0.92)
 
     -- Create a new enemy that has a base speed of 50 pixels per second with
-    -- multipliers of 1.5 and 2.0.
-    enemy = Enemy(50, 1.5, 2.0)
+    -- multipliers of 2.0 and 4.0.
+    enemy = Enemy(50, 2.0, 4.0)
 
     -- Create some fonts for our UI
     small_font = love.graphics.newFont("assets/oldpress.ttf", 48)
