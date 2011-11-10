@@ -2,6 +2,9 @@
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
+-- Have we won the game?
+game_won = false
+
 -- Load our Player class.
 love.filesystem.load("player.lua")()
 love.filesystem.load("enemy.lua")()
@@ -17,12 +20,21 @@ function love.load()
     -- friction.
     player = Player(300, 0.92)
 
-    -- Create a new enemy that has a base speed of 100 pixels per second with
+    -- Create a new enemy that has a base speed of 50 pixels per second with
     -- multipliers of 1.5 and 2.0.
     enemy = Enemy(50, 1.5, 2.0)
+
+    -- Create some fonts for our UI
+    small_font = love.graphics.newFont("assets/oldpress.ttf", 48)
+    large_font = love.graphics.newFont("assets/oldpress.ttf", 72)
 end
 
 function love.update(dt)
+    -- Don't do anything if we already won.
+    if game_won then
+        return
+    end
+
     -- Update the enemy.
     enemy:update(dt)
 
@@ -36,8 +48,8 @@ function love.update(dt)
     local player_radius = player.image:getWidth() / 2
     local enemy_radius = enemy.images[enemy.level]:getWidth() / 2
     if distance < player_radius + enemy_radius then
-        -- We only level up if the player's speed was over 300
-        if player.velocity:len() > 300 then
+        -- We only level up if the player's speed was at least 400
+        if player.velocity:len() >= 400 then
             level_up()
         end
     end
@@ -50,12 +62,22 @@ function love.draw()
     -- Draw the player.
     player:draw()
 
-    -- Draw the some info in the top left of the screen. Set the color to
-    -- black so we can see the text, but then reset it to white so our images
-    -- continue to draw properly.
+    -- Draw the some info in the top left of the screen. Set the draw color to
+    -- black so we can see the text.
     love.graphics.setColor(0, 0, 0)
-    love.graphics.print("Speed: " .. math.floor(player.velocity:len()), 10, 10)
-    love.graphics.print("Level: " .. enemy.level, 10, 30)
+    love.graphics.setFont(small_font)
+    love.graphics.print("Speed: " .. math.floor(player.velocity:len()), 20, 10)
+    love.graphics.print("Level: " .. enemy.level, 20, 60)
+
+    -- If we won, display our win message.
+    if game_won then
+        love.graphics.setColor(255, 0, 0)
+        love.graphics.setFont(large_font)
+        love.graphics.print("FFFFFFFUUUUUUUUUUUU", 180, 200)
+        love.graphics.print("YOU WIN", 320, 300)
+    end
+
+    -- Reset the draw color to white so our images draw properly.
     love.graphics.setColor(255, 255, 255)
 end
 
@@ -67,5 +89,14 @@ function love.keypressed(key)
 end
 
 function level_up()
-
+    if enemy.level >= 3 then
+        game_won = true
+    else
+        -- Level up the enemy.
+        enemy.level = enemy.level + 1
+        
+        -- Reset the player and enemy.
+        player:reset()
+        enemy:reset()
+    end
 end

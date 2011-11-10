@@ -37,6 +37,12 @@ Enemy = Class(function(self, speed, multiplier1, multiplier2)
     self.direction:normalize_inplace()
 end)
 
+function Enemy:reset()
+    self.position = Vector(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4)
+    self.direction = Vector((math.random() * 2) - 1, (math.random() * 2) - 1)
+    self.direction:normalize_inplace()
+end
+
 function Enemy:update(dt)
     -- Compute the velocity vector by multiplying our direction vector (which
     -- is unit length) by the base speed times the current multiplier.

@@ -23,6 +23,11 @@ Player = Class(function(self, accel, friction)
     self.velocity = Vector(0, 0)
 end)
 
+function Player:reset()
+    self.position = Vector(SCREEN_WIDTH * 3 / 4, SCREEN_HEIGHT * 3 / 4)
+    self.velocity = Vector(0, 0)
+end
+
 function Player:update(dt)
     if love.mouse.isDown("l") then
         -- The player has their left mouse button down, so let's add some

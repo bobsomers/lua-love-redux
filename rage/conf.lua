@@ -6,7 +6,4 @@ function love.conf(t)
     -- Graphics settings.
     t.screen.width = 800
     t.screen.height = 600
-
-    -- Show the debugging console.
-    t.console = true
 end
