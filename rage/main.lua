@@ -23,11 +23,24 @@ function love.load()
 end
 
 function love.update(dt)
+    -- Update the enemy.
+    enemy:update(dt)
+
     -- Update the player.
     player:update(dt)
 
-    -- Update the enemy.
-    enemy:update(dt)
+    -- Check to see if the player and enemy are colliding. We'll treat them
+    -- both as circles, so we can simple check to see if the distance between
+    -- their centers is less than their combined radii.
+    local distance = player.position:dist(enemy.position)
+    local player_radius = player.image:getWidth() / 2
+    local enemy_radius = enemy.images[enemy.level]:getWidth() / 2
+    if distance < player_radius + enemy_radius then
+        -- We only level up if the player's speed was over 300
+        if player.velocity:len() > 300 then
+            level_up()
+        end
+    end
 end
 
 function love.draw()
@@ -37,11 +50,12 @@ function love.draw()
     -- Draw the player.
     player:draw()
 
-    -- Draw the player's speed in the top left of the screen. Set the color to
+    -- Draw the some info in the top left of the screen. Set the color to
     -- black so we can see the text, but then reset it to white so our images
     -- continue to draw properly.
     love.graphics.setColor(0, 0, 0)
     love.graphics.print("Speed: " .. math.floor(player.velocity:len()), 10, 10)
+    love.graphics.print("Level: " .. enemy.level, 10, 30)
     love.graphics.setColor(255, 255, 255)
 end
 
@@ -50,4 +64,8 @@ function love.keypressed(key)
     if key == "escape" then
         love.event.push("q") -- quit
     end
+end
+
+function level_up()
+
 end
