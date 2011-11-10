@@ -13,7 +13,7 @@ download the files) and drag the rage directory onto your LOVE executable.
 
 ## Additional Resources
 
- * (http://www.lua.org)[Lua programming language]
- * (http://www.love2d.org)[LOVE game framework]
- * (https://github.com/bobsomers/lua-love-talk)[The previous iteration of this talk]
- * (https://github.com/bobsomers/game-jam-2011)[My 2011 Global Game Jam game, built in Lua/LOVE]
+ * [Lua programming language](http://www.lua.org)
+ * [LOVE game framework](http://www.love2d.org)
+ * [The previous iteration of this talk](https://github.com/bobsomers/lua-love-talk)
+ * [My 2011 Global Game Jam game, built in Lua/LOVE](https://github.com/bobsomers/game-jam-2011)
